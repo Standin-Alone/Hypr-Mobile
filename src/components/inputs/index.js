@@ -154,7 +154,7 @@ export const PrimaryPhoneInput = ({
                 
                 }]}>
                 <CountryPicker
-                    countryCode={callingCode ? countryName : "IN"}
+                    countryCode={callingCode ? countryName : "PH"}
                     withCallingCode={true}
                     withCloseButton={true}
                     containerButtonStyle={{

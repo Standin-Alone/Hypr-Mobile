@@ -55,7 +55,8 @@ import {
     VariantList,
     LogisticCard,
     ModeOfPaymentCard,
-    CountryCartCard
+    CountryCartCard,
+    CardOrders
 } from './cards';
 
 import OTPTextView from './OTP';
@@ -118,5 +119,6 @@ export default {
 
     ProgressView,
 
-    Placeholder
-}
+    Placeholder,
+    CardOrders
+}   

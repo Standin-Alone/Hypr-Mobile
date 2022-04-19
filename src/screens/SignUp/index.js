@@ -260,34 +260,7 @@ const SignUp = (props) => {
                     enableOnAndroid={true}
                     extraHeight={140}
                 >
-                    <View style={styles.dataContainer}>
-                        <Image
-                            source={constants.Images.logo}
-                            style={{
-                                width: constants.vw(80),
-                                height: constants.vw(80),
-                                resizeMode: "contain"
-                            }}
-                        />
-                        <Text style={styles.loginText}>MEMBER</Text>
-                        <View style={styles.signupTextContainer}>
-                            {/* <Text
-                                style={{
-                                    fontSize: 18,
-                                    fontWeight: "500",
-                                    color: constants.Colors.placeholder
-                                }}>Want to be seller?</Text> */}
-                            {/* <Text>{" "}</Text>
-                            <Text
-                                //onPress={() => NavigationService.navigate(constants.ScreensName.SignUpSeller.name, null)}
-                                onPress={() => { alert("seller website will be added here") }}
-                                style={{
-                                    fontSize: 18,
-                                    fontWeight: "500",
-                                    color: constants.Colors.linkText
-                                }}
-                            >Click here</Text> */}
-                        </View>
+                    <View style={styles.dataContainer}>                                        
                         <View style={styles.inputContainer}>
                             <Components.PrimaryInput
                                 placeholder="First Name"

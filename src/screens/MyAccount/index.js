@@ -188,7 +188,7 @@ const MyAccount = (props) => {
                                 style={styles.icon}
                                 onPress={handleGoToPay}
                             />
-                            <Text>To Pay</Text>
+                            <Text>My Orders</Text>
                         </TouchableOpacity>
 
                         <View>

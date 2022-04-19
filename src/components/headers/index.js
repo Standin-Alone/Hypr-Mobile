@@ -104,7 +104,12 @@ export const HeaderWithSearch = ({
     onFocus,
     onBlur,
     isFocus,
-    onPressWallet
+    onPressWallet,
+    showCart,
+    showWishlist,
+    showWallet,
+    
+    onPressSearch
 }) => {
     let count = 0;
     if (count > 9) {
@@ -137,6 +142,8 @@ export const HeaderWithSearch = ({
             </TouchableOpacity>
             {
                 showinput ?
+
+                    <View style={{flexDirection:'row'}}>
                     <TextInput
                         onChangeText={onChangeText}
                         onSubmitEditing={onSubmitEditing}
@@ -152,6 +159,10 @@ export const HeaderWithSearch = ({
                         selectionColor={constants.Colors.white}
                         autoCorrect={false}
                     />
+                    <TouchableOpacity style={styles.searchButton} onPress={onPressSearch}>
+                        <Text style={styles.searchText}> Search</Text>
+                    </TouchableOpacity>
+                    </View>
                     :
                     null
             }
@@ -162,7 +173,8 @@ export const HeaderWithSearch = ({
                 width: "30%",
             }}>
 
-
+            {
+                showCart  &&
                 <TouchableOpacity
                     activeOpacity={1}
                     onPress={onPressCart}
@@ -197,7 +209,12 @@ export const HeaderWithSearch = ({
 
                     {/* <Text style={{ fontSize: 16, color: "#fff" }}>Cart</Text> */}
                 </TouchableOpacity>
+            }
 
+            {
+                showWishlist  &&
+
+            
                 <TouchableOpacity
                     onPress={onPressWishlist}
                     activeOpacity={1}
@@ -213,7 +230,7 @@ export const HeaderWithSearch = ({
                     />
                     {/* <Text style={{ fontSize: 16, color: "#fff" }}>Wishlist</Text> */}
                 </TouchableOpacity>
-
+            }
 
               
 
@@ -255,21 +272,23 @@ export const HeaderWithSearch = ({
                 {/* </TouchableOpacity> */}
 
 
-                  <TouchableOpacity
-                    onPress={onPressWallet}
-                    activeOpacity={1}
-                    style={{
-                        flexDirection: "column",
-                        alignItems: "center"
-                    }}
-                >
-                    <FontAwesome5
-                        name="wallet"
-                        size={constants.vw(22)}
-                        color={constants.Colors.blue_primary}
-                    />
-                    
-                </TouchableOpacity>
+                { showWallet &&
+                    <TouchableOpacity
+                      onPress={onPressWallet}
+                      activeOpacity={1}
+                      style={{
+                          flexDirection: "column",
+                          alignItems: "center"
+                      }}
+                    >
+                      <FontAwesome5
+                          name="wallet"
+                          size={constants.vw(22)}
+                          color={constants.Colors.blue_primary}
+                      />                      
+                    </TouchableOpacity>
+                }
+                
 
 
             </View>

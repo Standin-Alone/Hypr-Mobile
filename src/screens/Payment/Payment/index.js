@@ -16,7 +16,7 @@ import constants from '../../../constants';
 import Components from '../../../components';
 import getConfig from '../../../utils/config';
 import {getUserIdFromStorage} from '../../../utils/asyncstorage';
-import {placeOrder,getCartList} from '../../../actions/marketPlace';
+import {placeOrder,getCartListm,successPayment,stripeSuccess} from '../../../actions/marketPlace';
 import base64 from 'react-native-base64';
 import StripeCheckout from 'react-native-stripe-checkout-webview';
 
@@ -34,33 +34,55 @@ const Payment = (props) => {
         
        
     })
+    
     const [visible, setVisiblity] = useState(true);
 
     const handleNavigationStateChange=(navState)=>{
-const {url,title} = navState;
-console.log("navState",navState);
-if(title === "Payment Success | Paypal"){
-    console.log("url",url);
-    let spliturl = url.split('?');
-      console.log("spliturl",spliturl);
-      let splitotherhalf = spliturl[1].split('&');
-      console.log("splitotherhalf",splitotherhalf);
-      let paymentId = splitotherhalf[0].replace("paymentId=","");
-      let token = splitotherhalf[1].replace("token=","");
-      let lastValue = url.split('/')
-      console.log("lastValue",lastValue);
-      const payload={
-        paymentMode:"Paypal"
-      }
-      setTimeout(() => {
-        props.dispatch(placeOrder(payload))
-      }, 2000);
-}
-if(title === "Payment Cancelled | Paypal"){
-    setTimeout(() => {
-        props.navigation.goBack()
-    }, 2000);
-}
+        
+        const {url,title} = navState;
+        
+        // console.log("navState",navState);
+        if(title === "Payment Success | Paypal"){
+            console.log("url",url);
+            let spliturl = url.split('?');
+            console.log("spliturl",spliturl);
+            let splitotherhalf = spliturl[1].split('&');
+            console.log("splitotherhalf",splitotherhalf);
+            let paymentId = splitotherhalf[0].replace("paymentId=","");
+            let token = splitotherhalf[1].replace("token=","");
+            let lastValue = url.split('/')
+            console.log("lastValue",lastValue);
+            const payload={
+                paymentMode:"Paypal",
+                orderId:props.route.params.orderId
+            }
+            setTimeout(() => {
+                props.dispatch(placeOrder(payload))
+            }, 2000);
+        }else if(title === "Payment Success | Stripe"){
+            
+            let payload = {
+                checkoutSessionId:props.route.params.checkoutSessionId,
+                paymentId:props.route.params.checkoutSessionId,
+                payerId:props.route.params.orderId,
+                cart:props.route.params.cart,
+                _id:userid,
+                totalAmount:props.route.params.cart.reduce((prev, current) => prev + parseFloat(current.f_totalAmount), 0)
+
+            }   
+            props.dispatch(successPayment(payload));
+                
+        }
+
+        if(title === "Payment Cancelled | Paypal"){
+            // setTimeout(() => {
+            //     props.navigation.goBack()
+            // }, 2000);
+        }else if (title === "Payment Cancelled | Stripe"){
+            setTimeout(() => {
+                props.navigation.goBack()
+            }, 2000);
+        }
     }
     return (
         <>
@@ -91,7 +113,7 @@ if(title === "Payment Cancelled | Paypal"){
                         <WebView
                             scalesPageToFit={true}
                             //source={{ uri: `${getConfig().accesspoint}${constants.EndPoint.PAYMENT_CHECKOUT}/${props.auth.totalPayingAmount}/${userid}` }}
-                            source={{ uri: `${getConfig().accesspoint}${constants.EndPoint.PAYMENT_CHECKOUT}/10/${userid}/${base64.encode(JSON.stringify(props.route.params.cart))}`}}
+                            source={{ uri: `${getConfig().accesspoint}${constants.EndPoint.PAYMENT_CHECKOUT}/${userid}/${base64.encode(JSON.stringify(props.route.params.cart))}`}}
                             onNavigationStateChange={handleNavigationStateChange}
                             startInLoadingState={true}
                             renderLoading={() => <Components.ProgressView 
@@ -106,23 +128,50 @@ if(title === "Payment Cancelled | Paypal"){
                     // STRIPE 
                         (
                         <StripeCheckout
-                                stripePublicKey={stripeAPI.STRIPE_PUBLIC_KEY}
+                                stripePublicKey={stripeAPI.STRIPE_PUBLIC_KEY}   
                                 checkoutSessionInput={{
                                 sessionId: props.route.params.checkoutSessionId,                                
+                                // successURL: `${getConfig().accesspoint}successPayment?sc_checkout=success&sc_sid=${props.route.params.checkoutSessionId}&paymentId=${props.route.params.orderId}&payerId=${props.route.params.orderId}&paymentTitle=Stripe`,
+                                // cancelURL: `${getConfig().accesspoint}cancelledPayment?sc_checkout=cancel&sc_sid=${props.route.params.checkoutSessionId}`,
                                 }}
-                                onSuccess={({ checkoutSessionId }) => {                               
+                                onSuccess={({ checkoutSessionId }) => {     
                                     
+                                    // let payload = {                                        
+                                    //     paymentId:props.route.params.checkoutSessionId,
+                                    //     payerId:props.route.params.orderId,                                                                                
+                                    // }   
+
+                                    // props.dispatch(stripeSuccess(payload));
+
+
+                                    let payload = {
+                                        checkoutSessionId:props.route.params.checkoutSessionId,
+                                        paymentId:props.route.params.checkoutSessionId,
+                                        payerId:props.route.params.orderId,
+                                        cart:props.route.params.cart,
+                                        _id:userid,
+                                        totalAmount:props.route.params.cart.reduce((prev, current) => prev + parseFloat(current.f_totalAmount), 0)
+                        
+                                    }   
+                                    props.dispatch(successPayment(payload));
                                         
                                 }}
                                 
                                 onCancel={() => {
-                                    props.navigation.goBack()
+                                    // setTimeout(() => {
+                                    //     props.navigation.goBack()
+                                    // }, 500);
                                 }}
 
-                                // webViewProps={{ test: "test" }}
-                                // renderOnComplete={(props) => {
-                                //     return <></>;
-                                //   }}
+                                
+                                onLoadingComplete={() => {
+                                            console.log(`loading done`);
+                                }}
+
+                                webViewProps={{ onNavigationStateChange: handleNavigationStateChange }}
+                                renderOnComplete= {()=>{
+                                    return (<View style={{backgroundColor:'transparent'}}></View>)
+                                }}
                         />
                         )
 

@@ -58,11 +58,13 @@ const ProductDetail = (props) => {
         variantPrice: props.market.productDetails.variantSellPrice
     })
     useEffect(() => {
-        console.warn()
+        
         props.dispatch(getWishList())
         const unsubscribe = props.navigation.addListener('blur', () => {
             props.dispatch(unsetPinCodeData())
         });
+
+        
    
       
         return unsubscribe;
@@ -358,6 +360,9 @@ const ProductDetail = (props) => {
                     onPressDrawer={() => { props.navigation.goBack() }}
                     onPressWishlist={() => NavigationService.navigate(constants.ScreensName.WishList.name, null)}
                     onPressInput={() => { NavigationService.navigate(constants.ScreensName.SearchProduct.name, null) }}
+                    showCart={true}
+                    showWallet={true}
+                    showWishlist={true}
                 />
 
                 <View style={styles.sliderContainer}>
@@ -462,7 +467,7 @@ const ProductDetail = (props) => {
                                    }}>
                                 <Text style={ { fontFamily:Fonts.GothamBold,fontSize: 12, textTransform: "capitalize", fontWeight:'600',color:constants.Colors.fade}}>
                                     
-                                    ${props.market.freightCalculation.filter((item)=>item.isSelected == true)[0].logisticAging} Days
+                                    {props.market.freightCalculation.filter((item)=>item.isSelected == true)[0].logisticAging} Days
                                     
                                 </Text>  
                             </View>

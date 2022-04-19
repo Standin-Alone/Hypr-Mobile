@@ -27,6 +27,7 @@ const imageUri = "https://homepages.cae.wisc.edu/~ece533/images/airplane.png"
 const WishList = (props) => {
     useEffect(() => {
         props.dispatch(getWishList())
+        console.warn(props.market);
     }, [])
     const [state, setState] = React.useState({})
     const renderCart = ({ item, index }) => {
@@ -38,10 +39,9 @@ const WishList = (props) => {
                     onPress={() => handleGetProductDetails(item)}
                     onPressDelete={() => handleDeleteFromWishlist(item)}
                     image={item.f_ProductImg1}
-                    originalPrice={`${props.auth.currency_symbol} ${calculatePrice(item.f_ProductPrice)}`}
+                    originalPrice={`$${calculatePrice(item.f_ProductPrice)}`}
                     price={`${props.auth.currency_symbol} ${calculatePrice(item.f_totalAmount)}`}
-                    title={item.f_ServiceName}
-                    variant={`Size: XL     Color: Red`}
+                    title={item.f_VariantName}                    
                 />
             </View>
         )

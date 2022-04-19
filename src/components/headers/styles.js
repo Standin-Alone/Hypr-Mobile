@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 15,
     },
     headerWithSearchInput: {
-        width: "55%",
+        width: constants.width_dim_percent *  60,
         paddingVertical: constants.vh(5),
         borderWidth: 1,        
         borderRadius: 10,
@@ -33,5 +33,18 @@ export const styles = StyleSheet.create({
         bottom: 5,
         left: 5,
         right: 5
+    },
+    searchButton:{
+        alignItems:'center',
+        backgroundColor:constants.Colors.blue_primary,
+        padding:10,
+        width: constants.width_dim_percent *  25,
+        left:5,
+        borderRadius:15,
+    },
+    searchText:{
+        fontFamily:constants.Fonts.OpenSansBold,
+        fontSize:14,
+        color:constants.Colors.white
     }
 })

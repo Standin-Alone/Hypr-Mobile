@@ -250,10 +250,14 @@ export const signup = (payload) => {
                                                         
                             NavigationService.goback();
                         } else {
-                            store.dispatch(handleLoader(false))
-                            console.log(JSON.stringify(result.data))
-                            //@failed return from server
-                            store.dispatch(handleLoader(fakl))
+                            store.dispatch(handleLoader(false))       
+                            Toast.show({
+                                text1: constants.AppConstant.Hypr,
+                                text2: result.data.msg,
+                                type: "error",
+                                position: "top"
+                            });                     
+                            //@failed return from server                            
                             dispatch({
                                 type: types.SIGNUP_FAIL,
                                 isLoading: false,
@@ -262,12 +266,7 @@ export const signup = (payload) => {
 
                         
 
-                            Toast.show({
-                                text1: constants.AppConstant.Hypr,
-                                text2: result.msg,
-                                type: "error",
-                                position: "top"
-                            });
+                           
                         }
                     })
                     .catch((error) => {
@@ -1036,7 +1035,7 @@ export const saveAddress = (payload) => {
                    products:[]
                };
                
-               console.warn('Cart',cart)
+    
                 
                 clean_payload.zip = address.pincode;
                 clean_payload.code  = address.country_code;
@@ -1061,7 +1060,7 @@ export const saveAddress = (payload) => {
                 }))
 
                 
-                
+                console.warn('Cart',clean_payload);
                 POST(
                     `${getConfig().CJ_ACCESS_POINT}${constants.EndPoint.CREATE_ORDER}`,
                     clean_payload,

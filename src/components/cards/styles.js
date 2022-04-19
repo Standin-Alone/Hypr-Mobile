@@ -74,7 +74,7 @@ export const styles = StyleSheet.create({
         //alignItems: "center",
         //borderWidth: 1,
         
-        paddingHorizontal: constants.vw(10),
+        paddingHorizontal: constants.vw(5),
         marginHorizontal: 1,
         paddingVertical: constants.vh(20),
         borderRadius: 10,
@@ -383,5 +383,16 @@ export const styles = StyleSheet.create({
         marginStart: 10,
         fontSize: 16
     },
+    cardOrders:{
+        padding:20,
+        borderWidth:1,
+        borderColor:constants.Colors.blue_primary,
+        width:constants.width_dim_percent * 90,
+        height:constants.height_dim_percent * 20,
+        borderRadius:15
+    },
+    cardOrdersTitle:{
+        fontFamily:constants.Fonts.OpenSansBold
+    }
 
 })

@@ -62,12 +62,11 @@ const SearchProduct = (props) => {
                     onFocus={()=>setState({...state,isFocus:true})}
                     onBlur={()=>setState({...state,isFocus:false})}
                     isFocus={state.isFocus}
-                    cartCount={props.market.cartList.length}
-                    onPressCart={() => { NavigationService.navigate(constants.ScreensName.Cart.name, null) }}
-                    onPressDrawer={() => { handleBackutton() }}
-                    onPressWishlist={() => NavigationService.navigate(constants.ScreensName.WishList.name, null)}
+                    cartCount={props.market.cartList.length}                    
+                    onPressDrawer={() => { handleBackutton() }}                    
                     onChangeText={(searchValue) => { setState({ ...state, searchValue }) }}
                     onSubmitEditing={handleGetProduct}
+                    onPressSearch = {handleGetProduct}
                 />
                 <View style={{
                     flex: 1

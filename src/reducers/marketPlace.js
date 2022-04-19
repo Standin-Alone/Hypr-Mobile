@@ -134,6 +134,13 @@ const marketReducer = (prevState = initialstate, action) => {
                 ...prevState,
                 wishList: action.data
             }
+    
+        case types.GET_MY_ORDERS_SUCCESS:
+            return {
+                ...prevState,
+                myOrders: action.data                
+            }
+
         case types.GET_COUNRTY_SUCCESS:
             return {
                 ...prevState,

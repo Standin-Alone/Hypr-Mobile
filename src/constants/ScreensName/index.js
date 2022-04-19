@@ -110,6 +110,9 @@ const Screens = {
     ToPay: {
         name: "ToPay"
     },
+    MyOrders: {
+        name: "MyOrders"
+    },
     MyOrdersStackFunc: {
         name: "MyOrdersStackFunc"
     },

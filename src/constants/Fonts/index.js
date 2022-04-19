@@ -10,4 +10,8 @@ export default {
     SF_ProText: "SFProText-Regular",
     GothamBold: "GothamBold",
     GothamLight: "Gotham_light",
+    OpenSansBold: "OpenSans-Bold",
+    OpenSansRegular: "OpenSans-Regular",
+    OpenSansExtraBold: "OpenSans-ExtraBold",
+    OpenSansMedium: "OpenSans-Semibold"
 }

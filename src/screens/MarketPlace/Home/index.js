@@ -99,7 +99,7 @@ const MarketHome = (props) => {
     }
     
     const loadMore = async (allProducts) => { 
-        alert(state.currentPage);
+        
         await props.dispatch(getAllProducts(state.currentPage + 1,allProducts)).then(async()=>{
 
             return new Promise(function (resolve) {
@@ -143,6 +143,9 @@ const MarketHome = (props) => {
                     onPressDrawer={() => { props.navigation.toggleDrawer() }}
                     onPressWishlist={() => NavigationService.navigate(constants.ScreensName.WishList.name, null)}
                     onPressWallet={() => { NavigationService.navigate(constants.ScreensName.Wallet.name, null) }}
+                    showCart={true}
+                    showWishlist={true}
+                    showWallet={true}
                 />
                 <TouchableOpacity
                     onPress={() => {

@@ -245,7 +245,7 @@ export const CategoryCard = ({
     return (
         <TouchableOpacity
             onPress={onPress}
-            activeOpacity={1}
+            
             elevation={100}
             style={styles.categoryCardContainer}
         >
@@ -260,6 +260,7 @@ export const CategoryCard = ({
                         fontSize: 16,
                         fontWeight: "500",
                         //textAlign: "center",
+                        fontFamily:constants.Fonts.OpenSansRegular,
                         color: constants.Colors.color_47_44_44,
                         textTransform: "capitalize"
                     }}>{title}</Text>
@@ -301,17 +302,9 @@ export const CartCard = ({
         <View style={{flexDirection: "row",alignItems: "center",paddingBottom:constants.height_dim_percent * 5,justifyContent:'space-between',right:10,    }}>
 
 
-        {isShowSelect &&
-            <FontAwesome
-            onPress={onPressSelect}
-            name={isSelected ? "check-circle" : "circle-o"}
-            size={15}            
-            color={constants.Colors.blue_primary}
-            />
-        }
-      
+    
                     
-        <TouchableOpacity style={[styles.CartCardContainer,{borderColor: isSelected ? constants.Colors.blue_primary : 'transparent',borderWidth:1,width: constants.width_dim_percent *  ( isShowSelect ? 80 : 90)}]} onPress={isShowSelect ? onPress : ()=>{return true}}>
+        <TouchableOpacity style={[styles.CartCardContainer,{borderColor: isSelected ? constants.Colors.blue_primary : 'transparent',borderWidth:1,width: constants.width_dim_percent *  ( isShowSelect ? 80 : 80)}]} onPress={onPressSelect}>
             <Image
                 source={{ uri: image }}
                 style={{
@@ -497,14 +490,13 @@ export const WishListCard = ({
                     <Text style={{
                         fontSize: 16,
                         fontWeight: "400",
-                        color: constants.Colors.secondry,
-                        textDecorationLine: "line-through"
+                        color: constants.Colors.danger,                    
                     }}>{originalPrice}</Text>
-                    <Text style={{
+                    {/* <Text style={{
                         fontSize: 16,
                         fontWeight: "bold",
-                        color: constants.Colors.primary
-                    }}>   {price}</Text>
+                        color: constants.Colors.danger
+                    }}>   {price}</Text> */}
                 </View>
 
                 {/* <View style={{ flexDirection: "row" }}>
@@ -849,6 +841,7 @@ export const SearchProductCard = ({
                 <Text style={{
                     marginStart: constants.vw(10),
                     textTransform: "capitalize",
+                    fontFamily: constants.Fonts.OpenSansRegular
                 }}>{title}</Text>
             </View>
 
@@ -1854,6 +1847,26 @@ export const ModeOfPaymentCard = ({
                 </Text>
 
             </View>
+        </TouchableOpacity>
+    )
+}
+
+
+
+
+export const CardOrders = ({
+    onPress,
+    showSelect,
+    isSelected,
+    onPressSelect,
+    title
+}) => {
+    return (
+        <TouchableOpacity
+            onPress={onPress}         
+            style={[styles.cardOrders]}>      
+            <Text style={styles.cardOrdersTitle}>{title}</Text>
+
         </TouchableOpacity>
     )
 }

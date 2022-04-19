@@ -247,7 +247,7 @@ const Cart = (props) => {
         
         if(state.finalCart.length != 0){
             let payload= {
-                address:props.auth.shipping_address.filter((item)=>item.isSelected == true)[0],
+                address:props.auth.shipping_address[0],
                 cart:state.finalCart
             }    
             props.dispatch(createOrder(payload))

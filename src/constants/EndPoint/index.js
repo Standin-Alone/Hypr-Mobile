@@ -39,6 +39,8 @@ const Endpoints = {
     REMOVE_FROM_WISHLIST: `removeWishlist`,
     GET_WISHLIST: `fetchActiveWishlistByUser`,
 
+    GET_MY_ORDERS: `getMyOrders`,
+
     GET_COUNTRY: `fetchCountry`,
     GET_STATE: `fetchStateByCountryId`,
     GET_CITY: `fetchCityByStateId`,
@@ -118,5 +120,11 @@ const Endpoints = {
     SEND_INVITE_TO_LIKE_PAGE: "social/group/inviteForLikePage",
     ACCEPT_INVITATION_TO_LIKE_PAGE: "social/group/acceptInvitationPage",
     FETCH_LIKED_AND_PENDING_PAGE: "social/group/fetchMyPageDetails",
+
+
+
+    SUCCESS_PAYMENT:'successPayment',
+    STRIPE_PAYMENT:'stripePaymentSuccess',
+    
 };
 export default Endpoints;

@@ -240,7 +240,7 @@ const OrderScreen = (props) => {
                     <View style={{ paddingHorizontal: 15 }}>
                         <Components.PrimaryButton
 
-                            title={`PAY ${props.auth.currency_symbol} ${calculatePrice(props.market.totalPayingAmount)}`}
+                            title={`PAY $${calculatePrice(props.market.totalPayingAmount)}`}
                             onPress={() => {
                                 handlePlaceOrder()
                             }}

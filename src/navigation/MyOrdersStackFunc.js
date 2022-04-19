@@ -12,6 +12,7 @@ import {CardStyleInterpolators} from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Components from '../components';
 import ToPay from '../screens/ToPay';
+import MyOrders from '../screens/MyOrders';
 import Fonts from '../constants/Fonts';
 const MyOrdersStack = createMaterialTopTabNavigator();
 
@@ -35,15 +36,19 @@ const MyOrdersStackFunc = (props) => {
                     backgroundColor:constants.Colors.blue_primary
                 }
             }}
-            initialRouteName="ToPay"
+            initialRouteName="MyOrders"
         >      
             <MyOrdersStack.Screen
+                component={MyOrders}
+                name={constants.ScreensName.MyOrders.name}                
+                options={{ gestureEnabled: false,cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,tabBarLabel:'All Orders' }} 
+            />    
+
+            {/* <MyOrdersStack.Screen
                 component={ToPay}
                 name={constants.ScreensName.ToPay.name}                
                 options={{ gestureEnabled: false,cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,tabBarLabel:'To Pay' }} 
-
-
-            />    
+            />     */}
 
            
         </MyOrdersStack.Navigator>

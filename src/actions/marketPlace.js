@@ -318,6 +318,8 @@ export const setVariant = (product) => {
                                         type: "error",
                                         position: "top"
                                     });
+
+                                    store.dispatch(handleLoader(true))
                                 }
                             })
                             .catch((error) => {
@@ -1891,12 +1893,13 @@ export const getWishList = (payload) => {
                             {},
                         )
                             .then((result) => {
-                                console.log('result WishList',  result.data);
+                                
                                 if (result.data.status) {
                                     dispatch({
                                         type: types.GET_WISHLIST_SUCCESS,
-                                        data: result.data,
+                                        data: result.data.data,
                                     });
+                                    
                                     store.dispatch(handleLoader(false))
                                 } else {
                                     //@failed return from server
@@ -2350,7 +2353,7 @@ export const payment = (payload) => {
                                             type: types.CHECKOUT_SUCCESS,
                                             //data: result.data.id,
                                         });
-                                        console.warn('TApos');
+                                        
                                         NavigationService.navigate(constants.ScreensName.Payment.name, {amount:payload.amount , cart:payload.cart, modeOfPayment:payload.modeOfPayment,checkoutSessionId:result.data.checkoutSessionId,orderId:payload.orderId})                                    
     
                                         store.dispatch(handleLoader(false))
@@ -2430,6 +2433,7 @@ export const placeOrder = (payload) => {
                         let value = {
                             "userId": id,
                             "paymentMode": payload.paymentMode,
+                            "orderId":payload.orderId,
                             "paymentmethod": "Confirm",
                             "paymentStatus": "Paid",
                             "billingAddress": auth.address.address,
@@ -2442,6 +2446,21 @@ export const placeOrder = (payload) => {
                             "description": "",
                             "currencyFormat": market.currency
                         }
+
+
+                    let confirmOrderPayload = {
+                            orderId :  payload.orderId
+                        }
+                    // CONFIRM ORDER
+                        POST(
+                            `${getConfig().CJ_ACCESS_POINT}${constants.EndPoint.PAY_ORDER}`,                   
+                            confirmOrderPayload,
+                            {}
+                        ).then((payOrderResult)=>{
+                            console.warn('pay order',payOrderResult);
+                        if(payOrderResult.data.result){
+                                
+
                         POST(
                             `${getConfig().accesspoint}${constants.EndPoint.PLACE_ORDER}`,
                             value,
@@ -2475,6 +2494,7 @@ export const placeOrder = (payload) => {
                                         type: "error",
                                         position: "top"
                                     });
+                                    NavigationService.navigate("marketPlace", null)
                                     store.dispatch(handleLoader(false))
                                 }
                             })
@@ -2493,6 +2513,17 @@ export const placeOrder = (payload) => {
                                 });
                                 store.dispatch(handleLoader(false))
                             });
+                                
+                            }else{
+                                Toast.show({
+                                    text1: constants.AppConstant.Hypr,
+                                    text2: "Something went wrong.",
+                                    type: "error",
+                                    position: "top"
+                                });
+                            }
+
+                        });
                     } else {
                         //logout here
                     }
@@ -3430,6 +3461,7 @@ export const createOrder = (payload) => {
         
         let address = payload.address;
         let cart    = payload.cart;
+        console.warn('address',payload)
         store.dispatch(handleLoader(true));
         getUserIdFromStorage().then(id => {
             if (id !== null) {
@@ -3476,10 +3508,17 @@ export const createOrder = (payload) => {
                     {},
                 )
                 .then((result) => {
-                    let orderId = result.data;  
-
-                    if(result.status){
+                    let orderId = result.data.data;  
+                    console.warn('my order',result.data.result);
+                    if(result.data.result){
                         NavigationService.navigate(constants.ScreensName.OrderScreen.name, {cart:cart,orderId:orderId});
+                    }else{
+                        Toast.show({
+                            text1: "Message",
+                            text2: "Something went wrong!",
+                            type: "success",
+                            position: "top"
+                        });     
                     }
                 }).catch((err)=>{
 
@@ -3493,4 +3532,218 @@ export const createOrder = (payload) => {
         
         
     }
+}
+
+
+
+
+
+// STRIPE SUCESS PAYMENT
+export const successPayment = (payload) => {
+    return async (dispatch) => {
+        NetInfo.fetch().then(state => {
+            store.dispatch(handleLoader(true));
+            
+            if(state.isConnected && state.isInternetReachable){
+                getUserIdFromStorage().then(id => {
+                    if (id !== null) {
+                        
+                        // let newPayload = [...payload,{_id:id}];
+                        // console.warn('newPayload',newPayload)
+                        POST(
+                            `${getConfig().accesspoint}${constants.EndPoint.STRIPE_PAYMENT}`,                   
+                            payload,
+                            {}
+                        ).then((stripeResult)=>{
+
+
+                            
+                            if(stripeResult.data.status){
+
+
+                                
+                                let confirmOrderPayload = {
+                                    orderId :  stripeResult.data.orderId
+                                }
+                            // CONFIRM ORDER
+                                POST(
+                                    `${getConfig().CJ_ACCESS_POINT}${constants.EndPoint.PAY_ORDER}`,                   
+                                    confirmOrderPayload,
+                                    {}
+                                ).then((payOrderResult)=>{
+                                    console.warn('pay order',payOrderResult);
+                                    if(payOrderResult.data.result){
+
+                                        dispatch({
+                                            type: types.PLACE_ORDER_SUCCESS,
+                                        
+                                        });
+                                        Toast.show({
+                                            text1: constants.AppConstant.Hypr,
+                                            text2: "Great! your order has been placed. You can track it from dashboard.",
+                                            type: "success",
+                                            position: "top"
+                                        });
+                                            NavigationService.navigate(constants.ScreensName.MarketHome.name, null)                        
+                                            store.dispatch(handleLoader(false));
+                                    }else{
+                                        Toast.show({
+                                            text1: constants.AppConstant.Hypr,
+                                            text2: "We can't confirm your order. Please try again later",
+                                            type: "error",
+                                            position: "top"
+                                        });
+                                    }
+
+                                });
+                    
+                            }else{
+                                Toast.show({
+                                    text1: constants.AppConstant.Hypr,
+                                    text2: "Something went wrong.",
+                                    type: "error",
+                                    position: "top"
+                                });
+                            }   
+                        }).catch((error)=>{
+                            store.dispatch(handleLoader(false));
+                        })
+                    }else{
+                        // log out here
+                        store.dispatch(handleLoader(false));
+                    }
+                });                  
+            }else{
+                store.dispatch(handleLoader(false));
+            }
+        })
+    }
+}
+
+
+
+//  STRIPE SUCESS URL
+export const stripeSuccess = (payload) => {
+    return async (dispatch) => {
+        NetInfo.fetch().then(state => {
+            
+            
+            if(state.isConnected && state.isInternetReachable){
+                getUserIdFromStorage().then(id => {
+                    if (id !== null) {
+                        
+                        // let newPayload = [...payload,{_id:id}];
+                        // console.warn('newPayload',newPayload)
+                        GET(
+                            `${getConfig().accesspoint}${constants.EndPoint.SUCCESS_PAYMENT}?sc_checkout=success&paymentId=${payload.payerId}&payerId=${payload.paymentId}&paymentTitle=Stripe`,                   
+                                                        
+                        ).then((result)=>{          
+                            
+                        }).catch((error)=>{
+                            store.dispatch(handleLoader(false));
+                        })
+                    }else{
+                        // log out here
+                        store.dispatch(handleLoader(false));
+                    }
+                });                  
+            }else{
+                store.dispatch(handleLoader(false));
+            }
+        })
+    }
+}
+
+
+
+
+
+
+
+
+export const getMyOrders = (payload) => {
+    return async (dispatch) => {
+        NetInfo.fetch().then(state => {
+            if (state.isConnected) {
+                dispatch({
+                    type: types.GET_MY_ORDERS_LOADING,
+                    isLoading: true,
+                });
+                store.dispatch(handleLoader(true))
+                getUserIdFromStorage().then(id => {
+                    if (id !== null) {
+                        let value = {
+                            "userId": id,
+                        }
+                        POST(
+                            `${getConfig().accesspoint}${constants.EndPoint.GET_MY_ORDERS}`,
+                            value,
+                            {},
+                        )
+                            .then((result) => {
+                                console.warn(result.data.data  );
+                                if (result.data.status) {
+                                
+                                  
+                                    dispatch({
+                                        type: types.GET_MY_ORDERS_SUCCESS,
+                                        data: result.data.data                                        
+                                    });
+                                    store.dispatch(handleLoader(false))
+                                } else {
+                                    //@failed return from server
+                                    dispatch({
+                                        type: types.GET_MY_ORDERS_FAIL,
+                                        isLoading: false,
+                                        errorMessage: result.data.msg
+                                    });
+                                    Toast.show({
+                                        text1: constants.AppConstant.Hypr,
+                                        text2: result.data.msg,
+                                        type: "error",
+                                        position: "top"
+                                    });
+                                    store.dispatch(handleLoader(false))
+                                }
+                            })
+                            .catch((error) => {
+                                dispatch({
+                                    type: types.GET_MY_ORDERS_FAIL,
+                                    isLoading: false,
+                                    errorMessage: JSON.stringify(error)
+                                });
+                                console.log("error", error);
+                                Toast.show({
+                                    text1: constants.AppConstant.Hypr,
+                                    text2: constants.AppConstant.something_went_wrong_message,
+                                    type: "error",
+                                    position: "top"
+                                });
+                                store.dispatch(handleLoader(false))
+                            });
+                    } else {
+                        //logout here
+                    }
+                }).catch((error) => {
+                    dispatch({
+                        type: types.GET_CART_LIST_FAIL,
+                        isLoading: false,
+                        errorMessage: JSON.stringify(error)
+                    });
+                    console.log("error", error);
+                    store.dispatch(handleLoader(false))
+                })
+
+            }
+            else {
+                Toast.show({
+                    text1: constants.AppConstant.Hypr,
+                    text2: constants.AppConstant.network_error,
+                    type: "error",
+                    position: "top"
+                });
+            }
+        })
+
+    };
 }
