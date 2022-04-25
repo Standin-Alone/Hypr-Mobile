@@ -61,8 +61,15 @@ export const styles = StyleSheet.create({
         fontSize: 25,        
         marginTop: constants.vh(50),
         left:constants.width_dim_percent * 1,
-        color:constants.Colors.blue_primary,
+        color:constants.Colors.dark_tint,
         fontFamily:Fonts.GothamBold
+    },
+    subtitleText: {
+        fontSize: 20,        
+        marginTop: constants.vh(10),
+        left:constants.width_dim_percent * 1,
+        color:constants.Colors.dark_tint,
+        fontFamily:Fonts.OpenSansRegular
     },
     inputContainer: {
         marginTop: constants.vh(20)

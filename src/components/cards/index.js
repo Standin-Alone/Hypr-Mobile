@@ -1859,14 +1859,20 @@ export const CardOrders = ({
     showSelect,
     isSelected,
     onPressSelect,
-    title
+    title,
+    totalAmount
 }) => {
     return (
         <TouchableOpacity
             onPress={onPress}         
             style={[styles.cardOrders]}>      
-            <Text style={styles.cardOrdersTitle}>{title}</Text>
-
+            <Text style={styles.cardOrderLabel} adjustsFontSizeToFit>Order ID:</Text>
+            <Text style={styles.cardOrdersTitle} adjustsFontSizeToFit>{title}</Text>
+            <View style={styles.cardOrderTotalAmountContainer}>
+                    
+                    <Text style={styles.cardOrderTotalAmount} adjustsFontSizeToFit>${totalAmount}</Text>
+            </View>
+            
         </TouchableOpacity>
     )
 }

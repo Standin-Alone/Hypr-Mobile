@@ -432,6 +432,7 @@ const DrawerContent = (props) => {
                 {
                     props.auth.tab_type === "myaccount" &&
                     <>
+                        
 
                         <TouchableOpacity
                             onPress={() => props.navigation.navigate("EditProfile")}
@@ -441,7 +442,7 @@ const DrawerContent = (props) => {
                                 <MaterialIcons
                                     name="edit"
                                     size={27}
-                                    color={constants.Colors.primary}
+                                    color={constants.Colors.blue_primary}
                                 />
                                 <View style={styles.textContainer}>
                                     <Text style={styles.textStyle}>Edit Profile</Text>
@@ -451,7 +452,7 @@ const DrawerContent = (props) => {
                             <AntDesign
                                 name="right"
                                 size={20}
-                                color={constants.Colors.primary}
+                                color={constants.Colors.blue_primary}
                             />
                         </TouchableOpacity>
 
@@ -463,7 +464,7 @@ const DrawerContent = (props) => {
                                 <MaterialIcons
                                     name="lock-outline"
                                     size={30}
-                                    color={constants.Colors.primary}
+                                    color={constants.Colors.blue_primary}
                                 />
                                 <View style={styles.textContainer}>
                                     <Text style={styles.textStyle}>Change Password</Text>
@@ -473,11 +474,34 @@ const DrawerContent = (props) => {
                             <AntDesign
                                 name="right"
                                 size={20}
-                                color={constants.Colors.primary}
+                                color={constants.Colors.blue_primary}
                             />
                         </TouchableOpacity>
 
+                 
+
                         <TouchableOpacity
+                            onPress={() => props.navigation.navigate("AddAddressMyAccount")}
+                            activeOpacity={1}
+                            style={styles.itemContainer}>
+                            <View style={styles.itemSecondryContainer}>
+                                <FontAwesome
+                                    name="address-book"
+                                    size={25}
+                                    color={constants.Colors.blue_primary}
+                                />
+                                <View style={styles.textContainer}>
+                                    <Text style={styles.textStyle}>Address</Text>
+                                </View>
+                            </View>
+
+                            <AntDesign
+                                name="right"
+                                size={20}
+                                color={constants.Colors.blue_primary}
+                            />
+                        </TouchableOpacity>
+                        {/* <TouchableOpacity
                             onPress={() => props.navigation.navigate("ChangeCurrency")}
                             activeOpacity={1}
                             style={styles.itemContainer}>
@@ -497,29 +521,8 @@ const DrawerContent = (props) => {
                                 size={20}
                                 color={constants.Colors.primary}
                             />
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            onPress={() => props.navigation.navigate("AddAddressMyAccount")}
-                            activeOpacity={1}
-                            style={styles.itemContainer}>
-                            <View style={styles.itemSecondryContainer}>
-                                <FontAwesome
-                                    name="address-book"
-                                    size={25}
-                                    color={constants.Colors.primary}
-                                />
-                                <View style={styles.textContainer}>
-                                    <Text style={styles.textStyle}>Address</Text>
-                                </View>
-                            </View>
-
-                            <AntDesign
-                                name="right"
-                                size={20}
-                                color={constants.Colors.primary}
-                            />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
+                
 
                     </>
                 }

@@ -2332,14 +2332,14 @@ export const payment = (payload) => {
                                           product_data: {
                                             name: item.f_variantName,
                                           },
-                                          unit_amount: parseInt((parseFloat(item.f_ProductPrice) * 100) * item.f_itemQuantity),
+                                          unit_amount: parseInt((parseFloat(item.f_ProductPrice) * 100)),
                                         },
                                         quantity: item.f_itemQuantity,
                                       
                                 })
                             });
 
-                            console.warn(`${getConfig().accesspoint}${constants.EndPoint.STRIPE_CHECKOUT}`)
+                            
                             
                             POST(
                                 `${getConfig().accesspoint}${constants.EndPoint.STRIPE_CHECKOUT}`,
@@ -2355,7 +2355,7 @@ export const payment = (payload) => {
                                         });
                                         
                                         NavigationService.navigate(constants.ScreensName.Payment.name, {amount:payload.amount , cart:payload.cart, modeOfPayment:payload.modeOfPayment,checkoutSessionId:result.data.checkoutSessionId,orderId:payload.orderId})                                    
-    
+                                            
                                         store.dispatch(handleLoader(false))
                                     } else {
                                         //@failed return from server
@@ -2442,7 +2442,7 @@ export const placeOrder = (payload) => {
                             "billingCountry": auth.address.country,
                             "billingContactNo": auth.userData.f_phone,
                             "billingPinCode": auth.address.pincode,
-                            "orderTotalAmount": market.totalPayingAmount,
+                            "orderTotalAmount": payload.totalPayingAmount,
                             "description": "",
                             "currencyFormat": market.currency
                         }
@@ -2457,7 +2457,7 @@ export const placeOrder = (payload) => {
                             confirmOrderPayload,
                             {}
                         ).then((payOrderResult)=>{
-                            console.warn('pay order',payOrderResult);
+                            console.warn('PLACE order 2',payOrderResult);
                         if(payOrderResult.data.result){
                                 
 
@@ -2521,6 +2521,7 @@ export const placeOrder = (payload) => {
                                     type: "error",
                                     position: "top"
                                 });
+                                store.dispatch(handleLoader(false))
                             }
 
                         });
@@ -3550,6 +3551,19 @@ export const successPayment = (payload) => {
                         
                         // let newPayload = [...payload,{_id:id}];
                         // console.warn('newPayload',newPayload)
+                          // CONFIRM ORDER
+                    let confirmOrderPayload = {
+                            orderId :  payload.payerId
+                    }
+                    // CONFIRM TO CJ FIRST
+                    POST(
+                        `${getConfig().CJ_ACCESS_POINT}${constants.EndPoint.PAY_ORDER}`,                   
+                        confirmOrderPayload,
+                        {}
+                    ).then((payOrderResult)=>{
+
+
+                       if(payOrderResult.data.result){
                         POST(
                             `${getConfig().accesspoint}${constants.EndPoint.STRIPE_PAYMENT}`,                   
                             payload,
@@ -3559,44 +3573,24 @@ export const successPayment = (payload) => {
 
                             
                             if(stripeResult.data.status){
-
-
+                                                                                       
+                                    console.warn('pay order',payOrderResult.data.result);
+                                  
+                                    dispatch({
+                                        type: types.PLACE_ORDER_SUCCESS,
+                                    
+                                    });
+                                    Toast.show({
+                                        text1: constants.AppConstant.Hypr,
+                                        text2: "Great! your order has been placed. You can track it from dashboard.",
+                                        type: "success",
+                                        position: "top"
+                                    });
+                                        NavigationService.navigate(constants.ScreensName.MarketHome.name, null)
+                                        store.dispatch(handleLoader(false));
                                 
-                                let confirmOrderPayload = {
-                                    orderId :  stripeResult.data.orderId
-                                }
-                            // CONFIRM ORDER
-                                POST(
-                                    `${getConfig().CJ_ACCESS_POINT}${constants.EndPoint.PAY_ORDER}`,                   
-                                    confirmOrderPayload,
-                                    {}
-                                ).then((payOrderResult)=>{
-                                    console.warn('pay order',payOrderResult);
-                                    if(payOrderResult.data.result){
 
-                                        dispatch({
-                                            type: types.PLACE_ORDER_SUCCESS,
-                                        
-                                        });
-                                        Toast.show({
-                                            text1: constants.AppConstant.Hypr,
-                                            text2: "Great! your order has been placed. You can track it from dashboard.",
-                                            type: "success",
-                                            position: "top"
-                                        });
-                                            NavigationService.navigate(constants.ScreensName.MarketHome.name, null)                        
-                                            store.dispatch(handleLoader(false));
-                                    }else{
-                                        Toast.show({
-                                            text1: constants.AppConstant.Hypr,
-                                            text2: "We can't confirm your order. Please try again later",
-                                            type: "error",
-                                            position: "top"
-                                        });
-                                    }
-
-                                });
-                    
+                             
                             }else{
                                 Toast.show({
                                     text1: constants.AppConstant.Hypr,
@@ -3604,10 +3598,24 @@ export const successPayment = (payload) => {
                                     type: "error",
                                     position: "top"
                                 });
+                                store.dispatch(handleLoader(false));
+
                             }   
                         }).catch((error)=>{
                             store.dispatch(handleLoader(false));
                         })
+                    } else{
+                        Toast.show({
+                            text1: constants.AppConstant.Hypr,
+                            text2: "We can't confirm your order. Please try again later",
+                            type: "error",
+                            position: "top"
+                        });
+                        NavigationService.navigate(constants.ScreensName.MarketHome.name, null)
+                        store.dispatch(handleLoader(false));
+                    }
+                    });
+                    
                     }else{
                         // log out here
                         store.dispatch(handleLoader(false));

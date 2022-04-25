@@ -59,7 +59,7 @@ export const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        elevation: 5,
+        elevation: 0.5,
     },
     categoryCardImage: {
         width: constants.vw(140),
@@ -386,13 +386,26 @@ export const styles = StyleSheet.create({
     cardOrders:{
         padding:20,
         borderWidth:1,
-        borderColor:constants.Colors.blue_primary,
+        borderColor:constants.Colors.fade,
         width:constants.width_dim_percent * 90,
         height:constants.height_dim_percent * 20,
         borderRadius:15
     },
     cardOrdersTitle:{
         fontFamily:constants.Fonts.OpenSansBold
+    },
+    cardOrderLabel:{
+        fontFamily:constants.Fonts.OpenSansMedium
+    },
+    cardOrderTotalAmount:{
+        fontFamily:constants.Fonts.OpenSansBold,
+        color:constants.Colors.danger,
+        fontSize:30,        
+    },
+    cardOrderTotalAmountContainer:{
+        flexDirection:'row',        
+        justifyContent: 'flex-end',
+        top:constants.height_dim_percent * 28
     }
 
 })

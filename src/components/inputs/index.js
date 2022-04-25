@@ -62,7 +62,7 @@ export const PrimaryInput = ({
                         textAlignVertical: textAlignVertical ? textAlignVertical : "center",
                         paddingVertical: paddingVertical ? paddingVertical : constants.vh(16),
                         borderColor: isFocus || value != '' ? constants.Colors.blue_primary : isError ? constants.Colors.danger : constants.Colors.fade,
-                        backgroundColor: isFocus || value != '' ? constants.Colors.blue_tint : isError ? constants.Colors.danger : 'transparent'
+                        backgroundColor: isFocus || value != '' ? constants.Colors.blue_tint : isError ? constants.Colors.danger_tint : 'transparent'
                     }]}
 
                     value={value}

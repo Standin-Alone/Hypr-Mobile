@@ -12,6 +12,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -50,6 +51,11 @@ import AddAmountFundTransfer from '../screens/Payment/TopUpWallet/AddAmount';
 //Social Media
 import SocialDashboard from '../screens/SocialMedia/Dashboard';
 import { Colors } from 'react-native-paper';
+import {
+  CardStyleInterpolators,
+} from '@react-navigation/stack';
+
+import LottieView from 'lottie-react-native';
 
 const WIDTH = Dimensions.get("window").width;
 
@@ -117,18 +123,20 @@ export function BottomTabs() {
         name="Market"
         component={MarketPlaceStackFunc}
         options={({ route }) => ({
+          
           tabBarVisible: getTabBarVisibility(route),
           tabBarLabel: ({ focused }) => (
             <Text style={{
-              color: focused ? constants.Colors.blue_primary : constants.Colors.fade,
-              fontFamily:Fonts.GothamBold
+              color: focused ? constants.Colors.blue_primary : constants.Colors.dark_tint,
+              fontFamily:Fonts.OpenSansBold
 
             }}>Market</Text>
           ),
           tabBarColor: constants.Colors.danger,
           tabBarIcon: ({ focused }) => (
-            <FontAwesome name="shopping-cart" color={focused ? constants.Colors.blue_primary : constants.Colors.fade} size={25} />
-          ),
+            // <FontAwesome name="shopping-cart" color={focused ? constants.Colors.blue_primary : constants.Colors.dark_tint} size={25} />
+            <LottieView source={constants.Icons.home}  cacheComposition={true} autoPlay={focused} style={{width:constants.width_dim_percent * 10}} />
+          )
         })}
       />
       {/* <Tab.Screen
@@ -157,17 +165,16 @@ export function BottomTabs() {
           tabBarVisible: getTabBarVisibility(route),
           tabBarLabel: ({ focused }) => (
             <Text style={{
-              color: focused ? constants.Colors.blue_primary : constants.Colors.fade,
+              color: focused ? constants.Colors.blue_primary : constants.Colors.dark_tint,
               fontFamily:Fonts.GothamBold
             }}>My Account</Text>
           ),
           tabBarColor: constants.Colors.white,
           tabBarIcon: ({ focused }) => (
-            <FontAwesome5
-              name="user-alt"
-              color={focused ? constants.Colors.blue_primary :  constants.Colors.fade}
-              size={20} />
+            <LottieView source={constants.Icons.myProfile} cacheComposition={true} autoPlay={focused} style={{width:constants.width_dim_percent * 10}}  />
           ),
+          
+          
         })}
       />
     </Tab.Navigator>
@@ -204,7 +211,7 @@ const HyprDrawer = () => {
     >
       {/* Dashboard */}
       
-      <Drawer.Screen name="Dashboard" component={BottomTabs} />
+      <Drawer.Screen name="Dashboard" component={BottomTabs}  options={{ cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS}} />
       <Drawer.Screen name="FundTransfer" component={FundTransfer} />
       <Drawer.Screen name="TopUpWallet" component={TopUpWalletFunc} />
       <Drawer.Screen name="Network" component={Network} />

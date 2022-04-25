@@ -112,6 +112,8 @@ const SignUp = (props) => {
                 return 0;
             }
             if (state.username.length === 0) {
+
+
                 setState({
                     ...state,
                     usernameErr: true,
@@ -299,25 +301,7 @@ const SignUp = (props) => {
                                 }}
                             />
                         </View>
-                        <View style={styles.inputContainer}>
-                            <Components.PrimaryInput
-                                placeholder="Username"
-                                value={state.username}
-                                isError={state.usernameErr}
-                                error={state.usernameErrMsg}
-                                onFocus={()=>setState({...state,focusUsername:true})}
-                                onBlur={()=>setState({...state,focusUsername:false})}                                
-                                isFocus = {state.focusUsername}
-                                onChangeText={(username) => {
-                                    setState({
-                                        ...state,
-                                        username: username,
-                                        usernameErr: false,
-                                        usernameErrMsg: ""
-                                    })
-                                }}
-                            />
-                        </View>
+                     
                         <View style={styles.inputContainer}>
                             <Components.PrimaryInput
                                 placeholder="Email"
@@ -391,7 +375,26 @@ const SignUp = (props) => {
 
                             </View>
                         }
-
+                        <View style={styles.inputContainer}>
+                            <Components.PrimaryInput
+                                placeholder="Username"
+                                value={state.username}
+                                isError={state.usernameErr}
+                                error={state.usernameErrMsg}
+                                onFocus={()=>setState({...state,focusUsername:true})}
+                                onBlur={()=>setState({...state,focusUsername:false})}                                
+                                isFocus = {state.focusUsername}
+                                onChangeText={(username) => {
+                                    setState({
+                                        ...state,
+                                        username: username,
+                                        usernameErr: false,
+                                        usernameErrMsg: ""
+                                    })
+                                }}
+                            />
+                        </View>
+                        
                         <View style={styles.inputContainer}>
                             <Components.PrimaryInput
                                 placeholder="Password"
@@ -499,7 +502,7 @@ const SignUp = (props) => {
                         <View style={[styles.inputContainer, { width: "100%" }]}>
                             <Components.PrimaryButton
                                 onPress={handleSignUp}
-                                title="SIGN UP"
+                                title="Create an Account"
                             />
                         </View>
                     </View>

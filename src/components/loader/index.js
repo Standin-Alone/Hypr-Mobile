@@ -10,6 +10,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import constants from '../../constants';
 import Spinner from 'react-native-spinkit';
 import Fonts from '../../constants/Fonts';
+import LottieView from 'lottie-react-native';
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -36,14 +38,17 @@ export const ProgressView = (props) => {
         return (
             <SafeAreaView style={[styles.overlay, { alignItems: 'center', justifyContent: 'center' }]}>
                 <View style={{ borderRadius: 10, backgroundColor: 'white', paddingHorizontal: 25, paddingVertical: 15 }}>
-                    <Text style={{ fontSize: 20, fontWeight: '200',fontFamily:Fonts.GothamBold }}>{props.title !== undefined ? props.title : 'Loading'}</Text>                    
-                    <Spinner
+                    {/* <Text style={{ fontSize: 20, fontWeight: '200',fontFamily:Fonts.GothamBold }}>{props.title !== undefined ? props.title : 'Loading'}</Text>                     */}
+                    {/* <Spinner
                         style={{alignSelf:'center'}}
                         isVisible={true}
                         size={60}
                         type={'ThreeBounce'}
                         color={constants.Colors.blue_primary}
-                    />
+                    /> */}
+
+                    <LottieView source={constants.Icons.loader} cacheComposition={true} autoPlay={true}  loop={true} style={{width:constants.width_dim_percent * 30,alignSelf:'center'}}  />
+                
                 </View>
             </SafeAreaView>
         );

@@ -22,7 +22,7 @@ export const PrimaryButton = ({
     return (
         <LinearGradient
             start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
-            colors={[constants.Colors.gradient.contrast_1, constants.Colors.gradient.contrast_3]}
+            colors={[constants.Colors.gradient.contrast_1,constants.Colors.gradient.contrast_3]}
             style={[styles.linearGradient, {
                 paddingVertical: paddingVertical ? paddingVertical : constants.vh(16),
                 paddingHorizontal: paddingHorizontal ? paddingHorizontal : 0,

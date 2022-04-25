@@ -23,10 +23,10 @@ export const styles = StyleSheet.create({
         paddingVertical: constants.vh(16),
         paddingHorizontal: constants.vw(20),
         width: "100%",
-        borderRadius: 8,
+        borderRadius: 1,
         backgroundColor: constants.Colors.inputBackground,
         borderWidth:1,
-        fontFamily:'Gotham_light',
+        fontFamily:constants.Fonts.OpenSansMedium,
         fontSize: 16,
     },
     secureIconContainer: {

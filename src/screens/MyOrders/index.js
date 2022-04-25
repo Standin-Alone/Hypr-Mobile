@@ -47,7 +47,7 @@ const MyOrders = (props) => {
             }}>
                 <Components.CardOrders
                     title={item.f_displayOrderId}
-
+                    totalAmount = {item.f_orderTotalAmount}
                 />
                    
             </View>

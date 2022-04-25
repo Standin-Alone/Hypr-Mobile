@@ -54,7 +54,8 @@ const Payment = (props) => {
             console.log("lastValue",lastValue);
             const payload={
                 paymentMode:"Paypal",
-                orderId:props.route.params.orderId
+                orderId:props.route.params.orderId,
+                totalPayingAmount:props.route.params.cart.reduce((prev, current) => prev + parseFloat(current.f_totalAmount), 0)
             }
             setTimeout(() => {
                 props.dispatch(placeOrder(payload))
@@ -67,7 +68,7 @@ const Payment = (props) => {
                 payerId:props.route.params.orderId,
                 cart:props.route.params.cart,
                 _id:userid,
-                totalAmount:props.route.params.cart.reduce((prev, current) => prev + parseFloat(current.f_totalAmount), 0)
+                totalPayingAmount:props.route.params.cart.reduce((prev, current) => prev + parseFloat(current.f_totalAmount), 0)
 
             }   
             props.dispatch(successPayment(payload));
@@ -130,7 +131,7 @@ const Payment = (props) => {
                         <StripeCheckout
                                 stripePublicKey={stripeAPI.STRIPE_PUBLIC_KEY}   
                                 checkoutSessionInput={{
-                                sessionId: props.route.params.checkoutSessionId,                                
+                                        sessionId: props.route.params.checkoutSessionId,                                
                                 // successURL: `${getConfig().accesspoint}successPayment?sc_checkout=success&sc_sid=${props.route.params.checkoutSessionId}&paymentId=${props.route.params.orderId}&payerId=${props.route.params.orderId}&paymentTitle=Stripe`,
                                 // cancelURL: `${getConfig().accesspoint}cancelledPayment?sc_checkout=cancel&sc_sid=${props.route.params.checkoutSessionId}`,
                                 }}
@@ -172,6 +173,8 @@ const Payment = (props) => {
                                 renderOnComplete= {()=>{
                                     return (<View style={{backgroundColor:'transparent'}}></View>)
                                 }}
+
+                                bounces={false}
                         />
                         )
 

@@ -22,7 +22,7 @@ import { styles } from './styles';
 import { login, setSocialMediaData, todayCurrencyRate } from '../../actions/auth';
 import FacebookLogin from '../../utils/Facebook/FacebookLogin'
 import GoogleLogin from '../../utils/Google/GoogleLogin';
-
+import LottieView from 'lottie-react-native';
 
 
 const LogIn = (props) => {
@@ -157,9 +157,15 @@ const LogIn = (props) => {
                         <View style={styles.dataContainer}>
                         
 
-                        
+                            <View style={{flexDirection:'row'}}>
+                                <View>
+                                    <Text style={styles.loginText}>Welcome To Hypr</Text>
+                                    <Text style={styles.subtitleText}>Sign in to start shopping.</Text>
+                                </View>
+                                
+                            </View>
                             
-                            <Text style={styles.loginText}>Welcome To Hypr</Text>
+                            
                             
 
                             <View style={styles.inputContainer} >

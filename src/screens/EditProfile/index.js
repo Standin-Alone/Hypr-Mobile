@@ -191,17 +191,7 @@ const EditProfile = (props) => {
             <StatusBar barStyle="dark-content" />
 
             <SafeAreaView style={styles.secondryContainer}>
-            <FastImage
-                    source={Images.fade_bg}
-                    style={{
-                        width: constants.width_dim_percent * 100,
-                        height: constants.height_dim_percent * 100, 
-                        android: {
-                            elevation:100
-                        }                
-                        
-                    }}            
-                    resizeMode="cover">
+   
                 <Components.PrimaryHeader
                     onPress={() => props.navigation.goBack()}
                     title="Update Profile"
@@ -388,8 +378,7 @@ const EditProfile = (props) => {
                 <Components.ProgressView
                     isProgress={props.auth.isLoading}
                     title="Hypr"
-                />
-                   </FastImage>
+                />             
             </SafeAreaView>
         </>
     )

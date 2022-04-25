@@ -11,15 +11,17 @@ const Colors = {
     cart_color: "rgb(255,192,65)",
     light_grey: "#E1E4E6",
     danger:'#D9534F',
+    danger_tint: '#f7dcdb',
     fade:'#b4c0d3',
     mute:'#f6f6f6',
     light_green : '#80ED99',
     blue_primary : '#00aeef',
     blue_tint:'#dbf5ff',
     dark_text:'#050A0D',
+    dark_tint:'#545a64',
     gradient:{
         contrast_1:'#BB22FE',
-        contrast_2:'#963DFB',
+        contrast_2:'#0561D0',
         contrast_3:'#2787FA',
     },
     primary_bg_color: '#f5f5f5'
